@@ -1,0 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    /* aqui é para contar de borda a borda de um elemento
+    isso serve para colocar algum tamanho ou altura */
+    box-sizing: border-box;
+    font-family: monospace;
+}
