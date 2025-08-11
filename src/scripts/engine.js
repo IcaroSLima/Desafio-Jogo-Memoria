@@ -130,6 +130,8 @@ function checkMatch(){
         state.view.score.textContent = 0;
         state.view.timeLeft.textContent = 0;
         state.values.currentTime = 0;
+        window.location.reload();
     }
 
 }
+
