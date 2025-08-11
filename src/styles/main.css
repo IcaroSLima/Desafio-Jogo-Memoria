@@ -149,7 +149,7 @@ h2 {
     content: "";
     position: absolute;
     inset: 0;
-    background: #404040 transparent;
+    background: #404040;
     transition: 0.25s;
     transform: rotateY(0deg);
     backface-visibility: hidden;
@@ -167,4 +167,5 @@ h2 {
 .boxMa::after {
     transform: rotateY(180deg);
 }
+
 
