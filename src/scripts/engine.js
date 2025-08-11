@@ -1,6 +1,38 @@
 const emojis = [
     "🐵","🐵","🐶","🐶","🐹","🐹","🐷","🐷","🐸","🐸","🐴","🐴","🐔","🐔","🦒","🦒" 
-]
+];
+
+const state = {
+
+    view: {
+        timeLeft: document.querySelector("#time-left"),
+        score: document.querySelector("#score"),
+        vidas: document.querySelector("#vidas"),
+    },
+    
+    values: {
+        currentTime: 60,
+        result: 0, 
+        vidas: 3,       
+    },
+
+    actions: {
+        countDownTimerID: setInterval(countDown, 1000),
+    },    
+};
+
+
+function countDown() {
+    state.values.currentTime--;
+    state.view.timeLeft.textContent = state.values.currentTime;
+
+    if (state.values.currentTime <= 0) {
+        clearInterval(state.actions.countDownTimerID);
+        alert("Game Over!");
+    }
+
+};
+
 let openCards = []
 
 // aqui utilizo para embaralhar os elementos
@@ -40,6 +72,10 @@ for (let i = 0; i < emojis.length; i++) {
 // Ela serve para, se eu clicar em alguma carta eu quero guardar as 2 cartas que eu clicar vou guardar na "OpenCards"
 // Essas 2 cartas que eu clicar eu preciso comparar se são iguais
 function handleClick(){
+    // Se já estiver aberto ou já foi combinado, não faz nada
+    if (this.classList.contains("boxOpen") || this.classList.contains("boxMatch")) {
+        return;
+    }
     // Primeiro tenho que compara se tem menos de 2 cartas pois se tiver terceira carta está errado
     // Aqui eu vejo se o tamanho do "OpenCards" é menor que 2...
     if (openCards.length < 2) {
@@ -54,6 +90,8 @@ function handleClick(){
     if (openCards.length == 2) {
         //
         setTimeout(checkMatch, 500)
+        
+        
     }
 
 }
@@ -66,10 +104,14 @@ function checkMatch(){
         // vou adcionar tanto na posicao zero quanto na posição 1
         openCards[0].classList.add("boxMatch");
         openCards[1].classList.add("boxMatch");
+        state.view.score.textContent++;
+        state.values.result++;
         // se não for iguais, tenho que ir no else e remover o "classList" boxOpen
     } else {
         openCards[0].classList.remove("boxOpen")
         openCards[1].classList.remove("boxOpen")
+        state.view.vidas.textContent--;
+
     }
 
     // depois da minha verificaçao de IF e ELSE eu tenho que zerar o vetor "openCards"
@@ -81,6 +123,13 @@ function checkMatch(){
     // o tamnanho do elementos forem iguais ao tamnnho da variável "emojs" significa que tem o mesmo tambh 
     // Assim diz que virou todas as cartas e terminou o jogo colocando um "alert"
     if (document.querySelectorAll(".boxMatch").length === emojis.length) {
-        alert("Você venceu !");
-    } 
+        alert("Você venceu !  O seu resultado foi: " + state.values.result + " em " + state.values.currentTime + " segundos");
+    } else if (state.view.vidas.textContent < 0){
+        alert("Game Over!");        
+        state.view.vidas.textContent = 0;
+        state.view.score.textContent = 0;
+        state.view.timeLeft.textContent = 0;
+        state.values.currentTime = 0;
+    }
+
 }
